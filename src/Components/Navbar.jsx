@@ -28,8 +28,8 @@ const Navbar = () => {
           onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "underline text-[#632EE3]"
-              : "text-gray-700 hover:underline"
+              ? "underline text-[#F0E68C] "
+              : "text-white hover:underline"
           }
         >
           Home
@@ -41,8 +41,8 @@ const Navbar = () => {
           onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "underline text-[#632EE3]"
-              : "text-gray-700 hover:underline"
+              ? "underline text-[#F0E68C] "
+              : "text-white hover:underline"
           }
         >
           About
@@ -54,8 +54,8 @@ const Navbar = () => {
           onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "underline text-[#632EE3]"
-              : "text-gray-700 hover:underline"
+              ? "underline text-[#F0E68C] "
+              : "text-white hover:underline"
           }
         >
           Contact
@@ -65,21 +65,18 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-base-100 shadow-sm px-5 sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-[#0F3443] via-[#2C5364] to-[#203A43] shadow-md px-5 sticky top-0 z-50 text-white">
       <div className="flex items-center justify-between h-16">
         {/* Logo */}
-        <NavLink
-          to="/"
-          className="text-xl font-bold flex items-center justify-center gap-5 j"
-        >
-          <span className="text-4xl text-gradient-to-b from-[#3B5C5E] to-[#335451] ">
+        <NavLink to="/" className="flex items-center justify-center gap-3">
+          <span className="text-5xl text-[#F0E68C] drop-shadow-lg">
             <IoIosRestaurant />
           </span>
-          Foodie
+          <p className="text-2xl font-bold tracking-wide">Foodie</p>
         </NavLink>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex space-x-6">{links}</ul>
+        <ul className="hidden lg:flex space-x-6 font-medium">{links}</ul>
 
         {/* User / Login */}
         <div className="hidden lg:flex items-center space-x-3">
@@ -90,15 +87,14 @@ const Navbar = () => {
               <img
                 src={user?.photoURL || "https://i.ibb.co/5WKPq1Ty/habiba.jpg"}
                 alt="user"
-                className="w-15 h-15 rounded-full border-2 border-gray-300 cursor-pointer"
+                className="w-12 h-12 rounded-full border-2 border-[#E0F7EF] cursor-pointer hover:scale-105 transition"
               />
-              {/* Hover name */}
-              <span className="absolute bottom-[-15px] left-1/2 transform -translate-x-1/2 bg-gray-500 text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-200 transition">
+              <span className="absolute bottom-[-15px] left-1/2 transform -translate-x-1/2 bg-[#3A7D6D] text-white text-sm rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition">
                 {user.displayName || "User"}
               </span>
 
               {/* Dropdown */}
-              <ul className="absolute right-0 mt-3 p-2 shadow bg-base-100 rounded-box hidden group-hover:block w-40 text-sm">
+              <ul className="absolute right-0 mt-3 p-2 shadow bg-white text-gray-700 rounded-md hidden group-hover:block w-40 text-sm">
                 <li>
                   <NavLink
                     to="/add-review"
@@ -128,7 +124,8 @@ const Navbar = () => {
           ) : (
             <button
               onClick={handleLogin}
-              className="px-5 py-2 rounded-lg text-white font-medium transition duration-300 bg-gradient-to-b from-[#3B5C5E] to-[#335451] hover:opacity-90"
+              // className="px-5 py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-[#F0C27B] to-[#4B8C6B] hover:opacity-90 transition duration-300"
+              className="px-4 py-2 rounded-md bg-[#F6C85F] text-black font-medium hover:brightness-95 transition"
             >
               Login
             </button>
@@ -138,7 +135,7 @@ const Navbar = () => {
         {/* Hamburger (Mobile) */}
         <button
           onClick={toggleMenu}
-          className="lg:hidden text-gray-700 hover:text-[#632EE3]"
+          className="lg:hidden text-white hover:text-[#F0E68C]"
         >
           {menuOpen ? (
             <svg
@@ -176,7 +173,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-base-100 shadow-md rounded-md p-4 mt-5">
+        <div className="lg:hidden px-4 py-2 rounded-md bg-[#F6C85F]  hover:brightness-95 transition bg-opacity-90 shadow-md  mt-5 text-white">
           <ul className="flex flex-col space-y-2">{links}</ul>
           <div className="mt-4">
             {user ? (
@@ -211,7 +208,7 @@ const Navbar = () => {
                   handleLogin();
                   setMenuOpen(false);
                 }}
-                className="block mt-2 px-5 py-2 rounded-lg text-white font-medium transition duration-300 bg-gradient-to-b from-[#3B5C5E] to-[#335451] hover:opacity-90 w-full"
+                className="px-4 py-2 rounded-md bg-[#F6C85F] text-black font-medium hover:brightness-95 transition"
               >
                 Login
               </button>
