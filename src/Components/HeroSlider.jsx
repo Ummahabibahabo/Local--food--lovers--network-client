@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules"; // Autoplay বাদ
+import { Navigation, Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -39,11 +39,11 @@ const HeroSlider = () => {
   return (
     <div className="bg-[#123D3A] text-white relative">
       <Swiper
-        modules={[Navigation, Pagination]} // Autoplay নেই
-        loop={false} // Auto loop নেই
-        navigation={true} // Next/Prev button চালু
-        pagination={{ clickable: true }} // Dot ক্লিক করলে slide পরিবর্তন
-        allowTouchMove={true} // Swipe কাজ করবে
+        modules={[Navigation, Pagination]}
+        loop={true}
+        navigation={true}
+        pagination={{ clickable: true }}
+        allowTouchMove={true}
         className="h-[500px]"
       >
         {slides.map((slide, index) => (
@@ -55,7 +55,7 @@ const HeroSlider = () => {
                   {slide.title}
                 </h1>
                 <p className="text-gray-200">{slide.text}</p>
-                <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md transition">
+                <button className="px-4 py-2 rounded-md bg-[#F6C85F] text-black font-medium hover:brightness-95 transition">
                   Get Started
                 </button>
               </div>
