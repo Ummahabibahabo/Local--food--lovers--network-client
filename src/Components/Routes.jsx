@@ -5,6 +5,10 @@ import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import RegisterPage from "../Pages/RegisterPage";
 import LoginPage from "../Pages/LoginPage";
+import FoodDetails from "./FoodDetails";
+import AllReviews from "./AllReviews";
+import ProtectedRoute from "./ProtectedRouter";
+import AddReview from "./AddReview";
 
 export const router = createBrowserRouter([
   {
@@ -16,13 +20,17 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/about",
-        Component: About,
+        path: "/allReviews",
+        Component: AllReviews,
       },
 
       {
-        path: "/contact",
-        Component: Contact,
+        path: "/add-review",
+        element: (
+          <ProtectedRoute>
+            <AddReview></AddReview>
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/registerPage",
@@ -31,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "/loginPage",
         Component: LoginPage,
+      },
+      {
+        path: "/latest-foods/:id",
+        Component: FoodDetails,
       },
     ],
   },

@@ -1,9 +1,9 @@
 import React from "react";
 import HeroSlider from "../Components/HeroSlider";
 import LatestFoods from "../Components/LatestFoods";
-const latestFoodModalsPromise = fetch("http://localhost:3000/lates-foods").then(
-  (res) => res.json()
-);
+const latestFoodModalsPromise = fetch(
+  "http://localhost:3000/latest-foods"
+).then((res) => res.json());
 
 const Home = () => {
   return (

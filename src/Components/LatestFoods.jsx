@@ -1,5 +1,6 @@
 import React, { use } from "react";
 import FoodsCards from "./FoodsCards";
+import { Link } from "react-router";
 
 const LatestFoods = ({ latestFoodModalsPromise }) => {
   const foods = use(latestFoodModalsPromise);
@@ -16,9 +17,13 @@ const LatestFoods = ({ latestFoodModalsPromise }) => {
       </div>
 
       <div className="mt-8">
-        <button className="px-6 py-2 rounded-md bg-[#F6C85F] text-black font-semibold hover:brightness-90 transition">
+        <Link
+          to={"/allReviews"}
+          className="px-6 py-2 rounded-md bg-[#F6C85F] text-black font-semibold hover:brightness-90 transition"
+        >
+          {" "}
           Show All
-        </button>
+        </Link>
       </div>
     </div>
   );

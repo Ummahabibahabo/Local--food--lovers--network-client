@@ -37,7 +37,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/about"
+          to="/allReviews"
           onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
@@ -45,12 +45,12 @@ const Navbar = () => {
               : "text-white hover:underline"
           }
         >
-          About
+          AllReviews
         </NavLink>
       </li>
       <li>
         <NavLink
-          to="/contact"
+          to="/add-review"
           onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
@@ -58,7 +58,7 @@ const Navbar = () => {
               : "text-white hover:underline"
           }
         >
-          Contact
+          Add Review
         </NavLink>
       </li>
     </>
