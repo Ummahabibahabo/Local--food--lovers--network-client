@@ -48,19 +48,6 @@ const Navbar = () => {
           AllReviews
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/add-review"
-          onClick={() => setMenuOpen(false)}
-          className={({ isActive }) =>
-            isActive
-              ? "underline text-[#F0E68C] "
-              : "text-white hover:underline"
-          }
-        >
-          Add Review
-        </NavLink>
-      </li>
     </>
   );
 

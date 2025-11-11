@@ -1,119 +1,53 @@
-// import { useEffect, useState } from "react";
-// import { CiStar } from "react-icons/ci";
-
 import { useEffect, useState } from "react";
-import { CiStar } from "react-icons/ci";
-import { Link } from "react-router";
-
-// const AllReviews = () => {
-//   const [reviews, setReviews] = useState([]);
-
-//   useEffect(() => {
-//     fetch("http://localhost:3000/foods")
-//       .then((res) => res.json())
-//       .then((data) => {
-//         const sortedData = data.sort(
-//           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-//         );
-//         setReviews(sortedData);
-//       });
-//   }, []);
-
-//   return (
-//     <div className="p-6">
-//       <h2 className="text-3xl font-bold mb-6 text-center">All Reviews</h2>
-//       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-//         {reviews.map((review) => (
-//           <div
-//             key={review._id}
-//             className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition duration-300"
-//           >
-//             <img
-//               src={review.photo}
-//               alt={review.foodName}
-//               className="w-full h-64 object-cover"
-//             />
-//             <div className="p-4 space-y-2 text-left">
-//               <h3 className="font-semibold text-lg">{review.foodName}</h3>
-//               <p className="text-gray-900 text-lg">{review.restaurantName}</p>
-//               <p className="text-gray-900 text-lg">
-//                 {review.restaurantLocation}
-//               </p>
-//               <p className="font-medium text-gray-800 mt-2">
-//                 {review.reviewerName}
-//               </p>
-//               <div className="mt-3 flex items-center gap-2 text-yellow-500 font-semibold">
-//                 <span className="text-base">{review.rating}</span>
-//                 <CiStar className="text-2xl" />
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AllReviews;
-
-// import { useEffect, useState } from "react";
-// import { CiStar } from "react-icons/ci";
-// import { Link } from "react-router-dom"; // <-- corrected import
 
 const AllReviews = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/foods") // corrected API route
+    fetch("http://localhost:3000/reviews")
       .then((res) => res.json())
-      .then((data) => {
-        // Sort descending by createdAt
-        const sortedData = data.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        setReviews(sortedData);
-      })
-      .catch((err) => console.error("Failed to fetch reviews:", err));
+      .then((data) => setReviews(data))
+      .catch((err) => console.error("Error loading reviews:", err));
   }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">All Reviews</h2>
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-        {reviews.map((review) => (
-          <div
-            key={review._id}
-            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition duration-300"
-          >
-            <img
-              src={review.photo}
-              alt={review.foodName}
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4 space-y-2 text-left">
-              <h3 className="font-semibold text-lg">{review.foodName}</h3>
-              <p className="text-gray-900 text-lg">{review.restaurantName}</p>
-              <p className="text-gray-900 text-lg">
-                {review.restaurantLocation}
-              </p>
-              <p className="font-medium text-gray-800 mt-2">
-                {review.reviewerName}
-              </p>
-              <div className="mt-3 flex items-center gap-2 text-yellow-500 font-semibold">
-                <span className="text-base">{review.rating}</span>
-                <CiStar className="text-2xl" />
-              </div>
+    <div className="max-w-6xl mx-auto mt-10">
+      <h2 className="text-3xl font-bold text-center mb-6 text-green-600">
+        All Reviews
+      </h2>
 
-              {/* View Details Button */}
-              <Link to={`/latest-foods/${review._id}`}>
-                <button className="mt-3 px-6 py-2 rounded-md bg-[#F6C85F] text-black font-semibold hover:brightness-90 transition">
-                  View Details
-                </button>
-              </Link>
+      {reviews.length === 0 ? (
+        <p className="text-center text-gray-500">No reviews yet.</p>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reviews.map((review) => (
+            <div
+              key={review._id}
+              className="bg-white shadow-lg rounded-xl p-4 border hover:shadow-xl transition"
+            >
+              <img
+                src={review.photo}
+                alt={review.foodName}
+                className="rounded-lg w-full h-48 object-cover"
+              />
+              <h3 className="text-xl font-semibold mt-3">{review.foodName}</h3>
+              <p className="text-gray-600">
+                {review.restaurantName} — {review.location}
+              </p>
+              <p className="mt-2 text-yellow-500 font-semibold">
+                ⭐ {review.rating}/5
+              </p>
+              <p className="mt-2 text-gray-700">{review.reviewText}</p>
+              <p className="text-sm text-gray-400 mt-3">
+                Posted by: {review.userEmail}
+              </p>
+              <p className="text-xs text-gray-400">
+                {new Date(review.date).toLocaleString()}
+              </p>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

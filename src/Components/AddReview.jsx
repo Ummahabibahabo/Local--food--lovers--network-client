@@ -1,133 +1,111 @@
-// import React, { useState, useContext } from "react";
-// import { AuthContext } from "../Components/AuthContext"; // লগইন ইউজার context
-// import { useNavigate } from "react-router-dom";
-
 import { useContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const AddReview = () => {
-  const { user } = useContext(AuthContext); // Logged-in user
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     foodName: "",
     photo: "",
-    restaurant: "",
+    restaurantName: "",
     location: "",
     rating: "",
     reviewText: "",
   });
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [loading, setLoading] = useState(false);
 
-  // Handle form submit
-  const handleSubmit = (e) => {
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newReview = {
-      ...formData,
-      userEmail: user.email, // logged-in user email
-      date: new Date(), // current date
-    };
+    if (!form.rating) {
+      toast.error("Please enter a rating");
+      return;
+    }
 
-    fetch("http://localhost:3000/reviews", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newReview),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        data.insertedId &&
-          (alert(" Review added successfully!"),
-          setFormData({
-            foodName: "",
-            photo: "",
-            restaurant: "",
-            location: "",
-            rating: "",
-            reviewText: "",
-          }),
-          navigate("/my-reviews"));
-      })
-      .catch((err) => console.error("Error:", err));
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:3000/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          rating: parseFloat(form.rating),
+          userEmail: user.email,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success || data.insertedId) {
+        toast.success(data.message || "Review added successfully!");
+        navigate("/my-reviews");
+      } else {
+        toast.error(data.message || "Failed to add review");
+      }
+    } catch (err) {
+      console.error("Add review error:", err);
+      toast.error("Error adding review");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return user ? (
-    <div className="max-w-md mx-auto mt-8 bg-white shadow-lg p-6 rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Add Your Review</h2>
+  return (
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-2xl font-bold mb-4 text-center">Add Review</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        {["foodName", "photo", "restaurantName", "location"].map((field) => (
+          <input
+            key={field}
+            name={field}
+            placeholder={field.replace(/([A-Z])/g, " $1")}
+            value={form[field]}
+            onChange={handleChange}
+            className="border p-2 rounded"
+            required
+          />
+        ))}
+
         <input
-          type="text"
-          name="foodName"
-          placeholder="Food Name"
-          className="border p-2 rounded"
-          value={formData.foodName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="photo"
-          placeholder="Food Image URL"
-          className="border p-2 rounded"
-          value={formData.photo}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="restaurant"
-          placeholder="Restaurant Name"
-          className="border p-2 rounded"
-          value={formData.restaurant}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          className="border p-2 rounded"
-          value={formData.location}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
           name="rating"
-          placeholder="Star Rating (1-5)"
-          className="border p-2 rounded"
+          type="number"
+          placeholder="Rating (1-5)"
           min="1"
           max="5"
-          value={formData.rating}
+          step="0.1"
+          value={form.rating}
           onChange={handleChange}
+          className="border p-2 rounded"
           required
         />
+
         <textarea
           name="reviewText"
           placeholder="Write your review..."
-          className="border p-2 rounded"
-          rows="4"
-          value={formData.reviewText}
+          value={form.reviewText}
           onChange={handleChange}
+          rows="5"
+          className="border p-2 rounded"
           required
-        ></textarea>
+        />
 
         <button
           type="submit"
-          className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          disabled={loading}
+          className="bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-60"
         >
-          Submit Review
+          {loading ? "Adding..." : "Add Review"}
         </button>
       </form>
     </div>
-  ) : (
-    navigate("/login")
   );
 };
 

@@ -9,6 +9,9 @@ import FoodDetails from "./FoodDetails";
 import AllReviews from "./AllReviews";
 import ProtectedRoute from "./ProtectedRouter";
 import AddReview from "./AddReview";
+import MyReviews from "./MyReviews";
+import EditReview from "./EditReview";
+import NotFound from "./NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +46,27 @@ export const router = createBrowserRouter([
       {
         path: "/latest-foods/:id",
         Component: FoodDetails,
+      },
+      {
+        path: "/my-reviews",
+        element: (
+          <ProtectedRoute>
+            <MyReviews></MyReviews>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/edit-review/:id",
+        element: (
+          <ProtectedRoute>
+            <EditReview></EditReview>
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "*",
+        element: <NotFound></NotFound>,
       },
     ],
   },
