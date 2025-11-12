@@ -13,8 +13,15 @@ const FoodsCards = ({ food }) => {
   } = food;
 
   return (
-    <div className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition duration-300">
-      <img src={photo} alt={foodName} className="w-full h-70 object-cover" />
+    <div
+      className="bg-white shadow-md rounded-xl overflow-hidden 
+  hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2"
+    >
+      <img
+        src={photo}
+        alt={foodName}
+        className="w-full h-70 object-cover transition-transform duration-300 ease-in-out transform hover:scale-105 hover:brightness-110"
+      />
 
       <div className="p-4 space-y-2 text-left">
         <h3 className="font-semibold text-lg">{foodName}</h3>
@@ -29,7 +36,7 @@ const FoodsCards = ({ food }) => {
             <CiStar className="text-2xl" />
           </div>
           <Link to={`/latest-foods/${_id}`}>
-            <button className="px-6 py-2 rounded-md bg-[#F6C85F] text-black font-semibold hover:brightness-90 transition">
+            <button className="px-6 py-2 rounded-md bg-[#F6C85F] text-black font-semibold hover:brightness-90 transition duration-300">
               View Details
             </button>
           </Link>
