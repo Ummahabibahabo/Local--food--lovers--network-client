@@ -1,8 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "./MainLayout";
 import Home from "../Pages/Home";
-import About from "../Pages/About";
-import Contact from "../Pages/Contact";
+
 import RegisterPage from "../Pages/RegisterPage";
 import LoginPage from "../Pages/LoginPage";
 import FoodDetails from "./FoodDetails";
@@ -13,6 +12,7 @@ import MyReviews from "./MyReviews";
 import EditReview from "./EditReview";
 import NotFound from "./NotFound";
 import MyFavorites from "./MyFavorites";
+import Vegetarian from "./Vegetarian";
 
 export const router = createBrowserRouter([
   {

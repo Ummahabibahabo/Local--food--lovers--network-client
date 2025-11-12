@@ -56,9 +56,9 @@ const AllReviews = () => {
   };
 
   const handleAddFavorite = async (review) => {
-    if (!user) return toast.warning("⚠️ Please login first!");
+    if (!user) return toast.warning(" Please login first!");
     if (favoriteIds.includes(review._id))
-      return toast.warning("⚠️ Already in favorites!");
+      return toast.warning(" Already in favorites!");
 
     const favorite = {
       userEmail: user.email,
@@ -79,7 +79,7 @@ const AllReviews = () => {
       });
       const data = await res.json();
       if (data.success) {
-        toast.success("✅ Added to favorites!");
+        toast.success(" Added to favorites!");
         setFavoriteIds((prev) => [...prev, review._id]);
       } else {
         toast.warning(data.message || "Already in favorites");

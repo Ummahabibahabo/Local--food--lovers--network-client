@@ -44,6 +44,15 @@ const Navbar = () => {
           All Reviews
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to="/my-favorites"
+          onClick={() => setMenuOpen(false)}
+          className={navLinkStyle}
+        >
+          My Favorites
+        </NavLink>
+      </li>
     </>
   );
 
@@ -91,17 +100,10 @@ const Navbar = () => {
                     to="/my-reviews"
                     className="block py-1 px-3 hover:bg-gray-100"
                   >
-                    My Reviews
+                    My Review
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink
-                    to="/my-favorites"
-                    className="block py-1 px-3 hover:bg-gray-100"
-                  >
-                    My Favorites
-                  </NavLink>
-                </li>
+
                 <li>
                   <button
                     onClick={logoutUser}
