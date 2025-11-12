@@ -233,18 +233,18 @@ const Footer = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/about" className="hover:underline">
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/all-reviews" className="hover:underline">
+                <NavLink to="/allReviews" className="hover:underline">
                   All Reviews
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/contact" className="hover:underline">
-                  Contact
+                <NavLink to="/my-favorites" className="hover:underline">
+                  My Favorites
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/my-reviews" className="hover:underline">
+                  My Reviews
                 </NavLink>
               </li>
             </ul>
@@ -265,7 +265,7 @@ const Footer = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/favorites" className="hover:underline">
+                <NavLink to="/my-favorites" className="hover:underline">
                   My Favorites
                 </NavLink>
               </li>

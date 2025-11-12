@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router";
 
 const MyFavorites = () => {
   const { user } = useContext(AuthContext);
@@ -57,9 +58,10 @@ const MyFavorites = () => {
 
   if (!user)
     return (
-      <p className="text-center mt-10 text-gray-600">
-        Please login to see your favorites.
-      </p>
+      // <p className="text-center mt-10 text-gray-600">
+      //   Please login to see your favorites.
+      // </p>
+      <Navigate to="/loginPage" />
     );
 
   return (

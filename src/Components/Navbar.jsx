@@ -86,7 +86,7 @@ const Navbar = () => {
               </span>
 
               {/* Dropdown */}
-              <ul className="absolute right-0 mt-3 p-2 shadow bg-white text-gray-700 rounded-md hidden group-hover:block w-40 text-sm z-50">
+              <ul className="absolute right-0 mt-3 p-2 shadow bg-white text-gray-900 rounded-md hidden group-hover:block w-40 text-sm z-50">
                 <li>
                   <NavLink
                     to="/add-review"
@@ -100,7 +100,7 @@ const Navbar = () => {
                     to="/my-reviews"
                     className="block py-1 px-3 hover:bg-gray-100"
                   >
-                    My Review
+                    My Reviews
                   </NavLink>
                 </li>
 

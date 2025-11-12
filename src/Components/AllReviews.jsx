@@ -1,14 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { FiSearch } from "react-icons/fi"; // import search icon
+import { FiSearch } from "react-icons/fi";
 
 const AllReviews = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState([]);
-  const [search, setSearch] = useState(""); // search input
+  const [search, setSearch] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
 
   // Fetch reviews from server
@@ -27,22 +31,29 @@ const AllReviews = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
-  useEffect(() => {
+  // Fetch user's favorite review IDs
+  const fetchFavorites = async () => {
     if (!user) return;
-    const fetchFavorites = async () => {
+    try {
       const res = await fetch(
         `http://localhost:3000/favorites/user/${encodeURIComponent(user.email)}`
       );
       const data = await res.json();
       setFavoriteIds(data.map((fav) => fav.reviewId));
-    };
+    } catch (err) {
+      console.error("Failed to fetch favorites:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  useEffect(() => {
     fetchFavorites();
   }, [user]);
 
+  // Search input handling
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearch(value);
@@ -55,10 +66,18 @@ const AllReviews = () => {
     setSearchTimeout(timeout);
   };
 
+  // Add favorite
   const handleAddFavorite = async (review) => {
-    if (!user) return toast.warning(" Please login first!");
-    if (favoriteIds.includes(review._id))
-      return toast.warning(" Already in favorites!");
+    if (!user) {
+      navigate("/loginPage", { state: { from: location } });
+      toast.warning("Please login first!");
+      return;
+    }
+
+    if (favoriteIds.includes(review._id)) {
+      toast.warning("Already in favorites!");
+      return;
+    }
 
     const favorite = {
       userEmail: user.email,
@@ -79,13 +98,13 @@ const AllReviews = () => {
       });
       const data = await res.json();
       if (data.success) {
-        toast.success(" Added to favorites!");
         setFavoriteIds((prev) => [...prev, review._id]);
+        toast.success("Added to favorites!");
       } else {
         toast.warning(data.message || "Already in favorites");
       }
-    } catch (error) {
-      console.error("Failed to add favorite:", error);
+    } catch (err) {
+      console.error("Failed to add favorite:", err);
       toast.error("Failed to add favorite!");
     }
   };
@@ -94,7 +113,7 @@ const AllReviews = () => {
 
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4">
-      {/* Search Bar with icon */}
+      {/* Search Bar */}
       <div className="mb-6 flex justify-center">
         <div className="relative w-full md:w-1/2">
           <FiSearch
@@ -135,18 +154,20 @@ const AllReviews = () => {
               <p className="text-gray-500 text-sm">
                 {new Date(review.date).toLocaleString()}
               </p>
+
+              {/* Add to Favorites Button */}
               <button
                 onClick={() => handleAddFavorite(review)}
                 disabled={favoriteIds.includes(review._id)}
                 className={`mt-3 px-4 py-2 rounded-md font-semibold transition ${
                   favoriteIds.includes(review._id)
-                    ? "bg-gray-400 cursor-not-allowed"
+                    ? "bg-red-500 cursor-not-allowed text-white"
                     : "bg-[#F6C85F] hover:brightness-95 text-black"
                 }`}
               >
                 {favoriteIds.includes(review._id)
-                  ? " Added"
-                  : " Add to Favorites"}
+                  ? "Added"
+                  : "Add to Favorites"}
               </button>
             </div>
           ))

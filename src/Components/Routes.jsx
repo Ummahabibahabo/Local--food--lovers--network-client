@@ -12,7 +12,6 @@ import MyReviews from "./MyReviews";
 import EditReview from "./EditReview";
 import NotFound from "./NotFound";
 import MyFavorites from "./MyFavorites";
-import Vegetarian from "./Vegetarian";
 
 export const router = createBrowserRouter([
   {
