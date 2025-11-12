@@ -12,6 +12,7 @@ import AddReview from "./AddReview";
 import MyReviews from "./MyReviews";
 import EditReview from "./EditReview";
 import NotFound from "./NotFound";
+import MyFavorites from "./MyFavorites";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/my-reviews",
+        element: (
+          <ProtectedRoute>
+            <MyReviews></MyReviews>
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/registerPage",
         Component: RegisterPage,
       },
@@ -47,14 +56,7 @@ export const router = createBrowserRouter([
         path: "/latest-foods/:id",
         Component: FoodDetails,
       },
-      {
-        path: "/my-reviews",
-        element: (
-          <ProtectedRoute>
-            <MyReviews></MyReviews>
-          </ProtectedRoute>
-        ),
-      },
+
       {
         path: "/edit-review/:id",
         element: (
@@ -67,6 +69,10 @@ export const router = createBrowserRouter([
       {
         path: "*",
         element: <NotFound></NotFound>,
+      },
+      {
+        path: "/my-favorites",
+        Component: MyFavorites,
       },
     ],
   },

@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  //  Handle Google Login directly from Navbar
+  // Handle Google Login directly from Navbar
   const handleLogin = async () => {
     try {
       await loginWithGoogle();
@@ -20,17 +20,17 @@ const Navbar = () => {
     }
   };
 
+  // Common style for NavLinks
+  const navLinkStyle = ({ isActive }) =>
+    isActive ? "underline text-[#F0E68C]" : "text-white hover:underline";
+
   const links = (
     <>
       <li>
         <NavLink
           to="/"
           onClick={() => setMenuOpen(false)}
-          className={({ isActive }) =>
-            isActive
-              ? "underline text-[#F0E68C] "
-              : "text-white hover:underline"
-          }
+          className={navLinkStyle}
         >
           Home
         </NavLink>
@@ -39,13 +39,9 @@ const Navbar = () => {
         <NavLink
           to="/allReviews"
           onClick={() => setMenuOpen(false)}
-          className={({ isActive }) =>
-            isActive
-              ? "underline text-[#F0E68C] "
-              : "text-white hover:underline"
-          }
+          className={navLinkStyle}
         >
-          AllReviews
+          All Reviews
         </NavLink>
       </li>
     </>
@@ -65,7 +61,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden lg:flex space-x-6 font-medium">{links}</ul>
 
-        {/* User / Login */}
+        {/* User / Login Section */}
         <div className="hidden lg:flex items-center space-x-3">
           {loading ? (
             <span>Loading...</span>
@@ -81,7 +77,7 @@ const Navbar = () => {
               </span>
 
               {/* Dropdown */}
-              <ul className="absolute right-0 mt-3 p-2 shadow bg-white text-gray-700 rounded-md hidden group-hover:block w-40 text-sm">
+              <ul className="absolute right-0 mt-3 p-2 shadow bg-white text-gray-700 rounded-md hidden group-hover:block w-40 text-sm z-50">
                 <li>
                   <NavLink
                     to="/add-review"
@@ -99,6 +95,14 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
+                  <NavLink
+                    to="/my-favorites"
+                    className="block py-1 px-3 hover:bg-gray-100"
+                  >
+                    My Favorites
+                  </NavLink>
+                </li>
+                <li>
                   <button
                     onClick={logoutUser}
                     className="block w-full text-left py-1 px-3 hover:bg-gray-100"
@@ -111,7 +115,6 @@ const Navbar = () => {
           ) : (
             <button
               onClick={handleLogin}
-              // className="px-5 py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-[#F0C27B] to-[#4B8C6B] hover:opacity-90 transition duration-300"
               className="px-4 py-2 rounded-md bg-[#F6C85F] text-black font-medium hover:brightness-95 transition"
             >
               Login
@@ -160,7 +163,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden px-4 py-2 rounded-md bg-[#F6C85F]  hover:brightness-95 transition bg-opacity-90 shadow-md  mt-5 text-white">
+        <div className="lg:hidden px-4 py-2 rounded-md bg-[#F6C85F] bg-opacity-90 shadow-md mt-5 text-white">
           <ul className="flex flex-col space-y-2">{links}</ul>
           <div className="mt-4">
             {user ? (
@@ -168,16 +171,35 @@ const Navbar = () => {
                 <NavLink
                   to="/add-review"
                   onClick={() => setMenuOpen(false)}
-                  className="block py-2"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "block py-2 underline text-white"
+                      : "block py-2 hover:underline"
+                  }
                 >
                   Add Review
                 </NavLink>
                 <NavLink
                   to="/my-reviews"
                   onClick={() => setMenuOpen(false)}
-                  className="block py-2"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "block py-2 underline text-white"
+                      : "block py-2 hover:underline"
+                  }
                 >
                   My Reviews
+                </NavLink>
+                <NavLink
+                  to="/my-favorites"
+                  onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "block py-2 underline text-white"
+                      : "block py-2 hover:underline"
+                  }
+                >
+                  My Favorites
                 </NavLink>
                 <button
                   onClick={() => {
@@ -195,7 +217,7 @@ const Navbar = () => {
                   handleLogin();
                   setMenuOpen(false);
                 }}
-                className="px-4 py-2 rounded-md bg-[#F6C85F] text-black font-medium hover:brightness-95 transition"
+                className="px-4 py-2 rounded-md bg-[#203A43] text-white font-medium hover:brightness-95 transition"
               >
                 Login
               </button>
