@@ -8,40 +8,50 @@ const MyFavorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch favorites
   const fetchFavorites = async () => {
     if (!user) return;
     setLoading(true);
 
     try {
       const res = await fetch(
-        `http://localhost:3000/favorites/user/${encodeURIComponent(user.email)}`
+        `https://local-food-lovers-network-foodie-se.vercel.app/favorites/user/${encodeURIComponent(
+          user.email
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       const data = await res.json();
 
-      // Sort descending by date
       const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       setFavorites(sorted);
     } catch (error) {
       console.error("Failed to fetch favorites:", error);
       toast.error("Failed to fetch favorites!");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   useEffect(() => {
     fetchFavorites();
   }, [user]);
 
-  // Remove favorite
   const handleRemoveFavorite = async (_id) => {
     if (!window.confirm("Remove this favorite?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/favorites/${_id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://local-food-lovers-network-foodie-se.vercel.app/favorites/${_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
       const data = await res.json();
 
       if (data.success) {
@@ -56,13 +66,7 @@ const MyFavorites = () => {
     }
   };
 
-  if (!user)
-    return (
-      // <p className="text-center mt-10 text-gray-600">
-      //   Please login to see your favorites.
-      // </p>
-      <Navigate to="/loginPage" />
-    );
+  if (!user) return <Navigate to="/loginPage" />;
 
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4">

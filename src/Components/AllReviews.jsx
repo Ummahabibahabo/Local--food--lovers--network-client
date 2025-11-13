@@ -20,8 +20,11 @@ const AllReviews = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/reviews?search=${encodeURIComponent(query)}`
+        `https://local-food-lovers-network-foodie-se.vercel.app/reviews?search=${encodeURIComponent(
+          query
+        )}`
       );
+
       const data = await res.json();
       setReviews(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
     } catch (error) {
@@ -36,7 +39,9 @@ const AllReviews = () => {
     if (!user) return;
     try {
       const res = await fetch(
-        `http://localhost:3000/favorites/user/${encodeURIComponent(user.email)}`
+        `https://local-food-lovers-network-foodie-se.vercel.app/favorites/user/${encodeURIComponent(
+          user.email
+        )}`
       );
       const data = await res.json();
       setFavoriteIds(data.map((fav) => fav.reviewId));
@@ -91,11 +96,17 @@ const AllReviews = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(favorite),
-      });
+      const res = await fetch(
+        "https://local-food-lovers-network-foodie-se.vercel.app/favorites",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+          body: JSON.stringify(favorite),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         setFavoriteIds((prev) => [...prev, review._id]);

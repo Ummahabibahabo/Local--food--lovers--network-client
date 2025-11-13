@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 const FoodDetails = () => {
-  const { id } = useParams(); // URL থেকে food ID ধরবে
+  const { id } = useParams();
   const [food, setFood] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/latest-foods/${id}`) // নির্দিষ্ট আইডির রিভিউ লোড
+    fetch(
+      `https://local-food-lovers-network-foodie-se.vercel.app/latest-foods/${id}`
+    )
       .then((res) => res.json())
       .then((data) => setFood(data));
   }, [id]);

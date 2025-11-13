@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
+  getIdToken,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -22,13 +23,13 @@ const AuthProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Helper: save/remove user in localStorage
+  //  Helper: save/remove user in localStorage
   const saveUserToLocalStorage = (user) => {
     if (user) localStorage.setItem("user", JSON.stringify(user));
     else localStorage.removeItem("user");
   };
 
-  // 🔹 Register
+  //  Register
   const registerUser = async (name, email, password, photoURL) => {
     setLoading(true);
     try {
@@ -61,7 +62,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔹 Login (email/password)
+  //  Login (email/password)
   const loginUser = async (email, password) => {
     setLoading(true);
     try {
@@ -84,7 +85,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔹 Google Login
+  //  Google Login
   const loginWithGoogle = async () => {
     setLoading(true);
     try {
@@ -107,7 +108,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔹 Logout
+  //  Logout
   const logoutUser = async () => {
     setLoading(true);
     try {
@@ -121,15 +122,18 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔹 Listen to Firebase Auth state
+  //  Listen to Firebase Auth state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        const token = await getIdToken(currentUser);
+        console.log(token);
         const safeUser = {
           uid: currentUser.uid,
           email: currentUser.email,
           displayName: currentUser.displayName || DEFAULT_NAME,
           photoURL: currentUser.photoURL || DEFAULT_PHOTO,
+          token,
         };
         setUser(safeUser);
         saveUserToLocalStorage(safeUser);
@@ -143,7 +147,7 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  // 🔹 Expose context
+  //  Expose context
   const authInfo = {
     user,
     loading,

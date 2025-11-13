@@ -25,7 +25,9 @@ const EditReview = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/reviews/${id}`)
+    fetch(
+      `https://local-food-lovers-network-foodie-se.vercel.app/reviews/${id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setForm({
@@ -53,11 +55,14 @@ const EditReview = () => {
 
     setLoading(true);
 
-    fetch(`http://localhost:3000/reviews/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, rating: parseFloat(form.rating) }),
-    })
+    fetch(
+      `https://local-food-lovers-network-foodie-se.vercel.app/reviews/${id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, rating: parseFloat(form.rating) }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         alert(data.message || "Review updated successfully!");

@@ -28,23 +28,33 @@ const AddReview = () => {
       toast.error("Please enter a rating");
       return;
     }
+    if (!user?.token) {
+      toast.error("You must be logged in to add a review");
+      return;
+    }
 
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/reviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          rating: parseFloat(form.rating),
-          userEmail: user.email,
-        }),
-      });
+      const res = await fetch(
+        "https://local-food-lovers-network-foodie-se.vercel.app/reviews",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({
+            ...form,
+            rating: parseFloat(form.rating),
+            userEmail: user.email, // optional
+          }),
+        }
+      );
 
       const data = await res.json();
 
-      if (data.success || data.insertedId) {
+      if (data.acknowledged || data.success) {
         toast.success(data.message || "Review added successfully!");
         navigate("/my-reviews");
       } else {

@@ -14,23 +14,44 @@ const MyReviews = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/reviews/user/${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setReviews(data))
-      .catch((err) => console.error("Error loading user reviews:", err));
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch(
+          `https://local-food-lovers-network-foodie-se.vercel.app/reviews/user/${user.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        const data = await res.json();
+        setReviews(data);
+      } catch (err) {
+        console.error("Error loading user reviews:", err);
+        toast.error("Failed to load your reviews");
+      }
+    };
+
+    fetchReviews();
   }, [user, navigate]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/reviews/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://local-food-lovers-network-foodie-se.vercel.app/reviews/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const data = await res.json();
 
       if (data.success) {
-        setReviews(reviews.filter((r) => r._id !== id));
+        setReviews((prevReviews) => prevReviews.filter((r) => r._id !== id));
         toast.success(data.message || "Review deleted successfully!");
       } else {
         toast.error(data.message || "Delete failed.");
@@ -66,7 +87,7 @@ const MyReviews = () => {
               </thead>
               <tbody>
                 {reviews.map((review) => {
-                  const dateObj = new Date(review.date); // dateObj প্রতিটি row এর জন্য
+                  const dateObj = new Date(review.date);
                   return (
                     <tr key={review._id} className="hover:bg-gray-50">
                       <td className="p-2 border">
