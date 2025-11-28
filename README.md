@@ -1,8 +1,8 @@
 # 🍽️ Local Food Lovers Network
 
 **Live Site:** [https://your-live-site.netlify.app](https://your-live-site.netlify.app)  
-**Client Repo:** [https://github.com/your-username/local-food-lovers-client](https://github.com/your-username/local-food-lovers-client)  
-**Server Repo:** [https://github.com/your-username/local-food-lovers-server](https://github.com/your-username/local-food-lovers-server)
+**Client Repo:** [https://github.com/Ummahabibahabo/Local--food--lovers--network-client.git]  
+**Server Repo:** [https://github.com/Ummahabibahabo/Local--food--lovers--network-foodie-server.git]
 
 ---
 

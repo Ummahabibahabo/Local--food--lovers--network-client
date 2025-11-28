@@ -4,7 +4,7 @@ import LatestFoods from "../Components/LatestFoods";
 import Vegetarian from "../Components/Vegetarian";
 import LocalFood from "../Components/LocalFood";
 const latestFoodModalsPromise = fetch(
-  "http://localhost:3000/latest-foods"
+  "https://local-food-lovers-network-foodie-se.vercel.app/latest-foods"
 ).then((res) => res.json());
 
 const Home = () => {
